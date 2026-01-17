@@ -47,11 +47,13 @@ def setup_cookies():
 .youtube.com    TRUE    /       TRUE    1784227324      __Secure-ROLLOUT_TOKEN  CKmU7JjxnLHQhAEQ6qb1rseEjwMY0b62g52TkgM%3D
 """
     os.makedirs("/tmp/yt-dlp", exist_ok=True)
-    with open("/tmp/yt-dlp/cookies.txt", "w") as f:
+    cookies_path = "/tmp/yt-dlp/cookies.txt"
+    with open(cookies_path, "w") as f:
         f.write(cookie_content)
     # Also write to local directory as a backup if writable
     try:
-        with open("cookies.txt", "w") as f:
+        local_cookies = os.path.join(os.path.dirname(__file__), '../cookies.txt')
+        with open(local_cookies, "w") as f:
             f.write(cookie_content)
     except:
         pass
