@@ -105,7 +105,10 @@ def extract_search_info(input_str: str):
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
                     'Accept-Language': 'en-US,en;q=0.5',
                     'Sec-Fetch-Mode': 'navigate',
-                }
+                },
+                'impersonate_headers': True,
+                'youtube_include_dash_manifest': False,
+                'youtube_include_hls_manifest': False,
             }
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(input_str, download=False)
@@ -139,7 +142,11 @@ def extract_download_info(input_str: str, quality: Optional[int] = None):
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
             'Sec-Fetch-Mode': 'navigate',
-        }
+        },
+        'impersonate_headers': True,
+        'noprogress': True,
+        'youtube_include_dash_manifest': False,
+        'youtube_include_hls_manifest': False,
     }
     
     if quality:
@@ -234,7 +241,11 @@ def extract_all_formats(input_str: str):
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
             'Sec-Fetch-Mode': 'navigate',
-        }
+        },
+        'impersonate_headers': True,
+        'noprogress': True,
+        'youtube_include_dash_manifest': False,
+        'youtube_include_hls_manifest': False,
     }
     if not (input_str.startswith("http://") or input_str.startswith("https://")):
         input_str = f"ytsearch1:{input_str}"
