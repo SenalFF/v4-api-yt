@@ -51,15 +51,20 @@ def extract_search_info(input_str: str):
                 "status": True,
                 "creator": "mr senal",
                 "version": "v4-Lite",
-                "title": info.get("title"),
-                "uploader": info.get("channel"),
+                "title": video.get("title"),
+                "uploader": video.get("channel"),
                 "upload_date": video.get("publish_time"),
                 "views": video.get("views"),
                 "likes": "N/A",
                 "url": video_url
             }
         else:
-            ydl_opts = {'quiet': True, 'no_warnings': True}
+            ydl_opts = {
+                'quiet': True, 
+                'no_warnings': True,
+                'nocheckcertificate': True,
+                'no_color': True,
+            }
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(input_str, download=False)
                 return {
@@ -81,6 +86,8 @@ def extract_download_info(input_str: str, quality: Optional[int] = None):
         'quiet': True,
         'no_warnings': True,
         'extract_flat': False,
+        'nocheckcertificate': True,
+        'no_color': True,
     }
     
     if quality:
@@ -164,6 +171,8 @@ def extract_all_formats(input_str: str):
         'quiet': True,
         'no_warnings': True,
         'extract_flat': False,
+        'nocheckcertificate': True,
+        'no_color': True,
     }
     if not (input_str.startswith("http://") or input_str.startswith("https://")):
         input_str = f"ytsearch1:{input_str}"
