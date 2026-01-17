@@ -29,7 +29,8 @@ from youtube_search import YoutubeSearch
 import os
 
 def setup_cookies():
-    cookie_content = """# Netscape HTTP Cookie File
+    # Use environment variable for cookies if available, otherwise use hardcoded
+    cookie_content = os.environ.get("YOUTUBE_COOKIES_CONTENT", """# Netscape HTTP Cookie File
 # https://curl.haxx.se/rfc/cookie_spec.html
 # This is a generated file! Do not edit.
 
@@ -45,7 +46,7 @@ def setup_cookies():
 .youtube.com    TRUE    /       TRUE    1784227324      __Secure-YNID   15.YT=QPG91qjjN8kGqlefUNesPdldOxeFbp04BruLivqTDOC8zlgGKpdHRE84JFYdhL4tzLAq53nrNS_FBvFJy_zPt3_R0CfOQ6um_h0fIkqc6KHm_NIkrhbKJfvWbN_aQPwH1HY3GH1jQhIWn5Ku0T12c3LsXaKbt7uIMGB2ntqu07zyr-XqBt75l-QPwgOTk-6yRS7GJ-fXNt5pMtv_oeKZnZux4gJhrc6pmNZCiHFC0EOrtmJ_pCSF0q0d8cylWxy6z-Un7XwGhZVtg1V_Rc72aScO-3LFREabTjjhkZoqEt52PiykyAaZ6k5Ha9W921b3eBzYpQli4hP1n_04X4zWxg
 .youtube.com    TRUE    /       TRUE    0       YSC     KSAvcaBsqpY
 .youtube.com    TRUE    /       TRUE    1784227324      __Secure-ROLLOUT_TOKEN  CKmU7JjxnLHQhAEQ6qb1rseEjwMY0b62g52TkgM%3D
-"""
+""")
     os.makedirs("/tmp/yt-dlp", exist_ok=True)
     cookies_path = "/tmp/yt-dlp/cookies.txt"
     with open(cookies_path, "w") as f:
