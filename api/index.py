@@ -66,7 +66,7 @@ def extract_search_info(input_str: str):
                 'no_color': True,
                 'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 'referer': 'https://www.google.com/',
-                'cookiefile': '/tmp/yt-dlp/cookies.txt',
+                'cookiefile': 'cookies.txt',
             }
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(input_str, download=False)
