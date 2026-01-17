@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+yt-dlp
+ffmpeg-python
+fastapi
+ffmpeg-python
+uvicorn[standard]
+yt-dlp
+youtube-search
