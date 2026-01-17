@@ -99,7 +99,7 @@ def extract_search_info(input_str: str):
                 'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 'referer': 'https://www.google.com/',
                 'cookiefile': '/tmp/yt-dlp/cookies.txt',
-                'extractor_args': {'youtube': {'player_client': ['web']}},
+                'extractor_args': {'youtube': {'player_client': ['ios', 'web', 'mweb', 'android', 'tv'], 'skip': ['hls', 'dash']}},
                 'http_headers': {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
@@ -133,10 +133,10 @@ def extract_download_info(input_str: str, quality: Optional[int] = None):
         'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
         'referer': 'https://www.google.com/',
         'cookiefile': '/tmp/yt-dlp/cookies.txt',
-        'extractor_args': {'youtube': {'player_client': ['web']}},
+        'extractor_args': {'youtube': {'player_client': ['ios', 'web', 'mweb', 'android', 'tv'], 'skip': ['hls', 'dash']}},
         'http_headers': {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
             'Sec-Fetch-Mode': 'navigate',
         }
@@ -228,10 +228,10 @@ def extract_all_formats(input_str: str):
         'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
         'referer': 'https://www.google.com/',
         'cookiefile': '/tmp/yt-dlp/cookies.txt',
-        'extractor_args': {'youtube': {'player_client': ['web']}},
+        'extractor_args': {'youtube': {'player_client': ['ios', 'web', 'mweb', 'android', 'tv'], 'skip': ['hls', 'dash']}},
         'http_headers': {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
             'Sec-Fetch-Mode': 'navigate',
         }
