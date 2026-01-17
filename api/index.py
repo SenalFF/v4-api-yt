@@ -173,9 +173,10 @@ def extract_download_info(input_str: str, quality: Optional[int] = None):
     }
     
     if quality:
-        ydl_opts['format'] = f"bestvideo[height<={quality}]+bestaudio/best[height<={quality}]"
+        # Improved format string to be more flexible and prevent "Requested format is not available"
+        ydl_opts['format'] = f"bestvideo[height<={quality}][ext=mp4]+bestaudio[ext=m4a]/best[height<={quality}]/best"
     else:
-        ydl_opts['format'] = "bv*+ba/b"
+        ydl_opts['format'] = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best"
     
     ydl_opts['merge_output_format'] = 'mp4'
     
