@@ -66,6 +66,7 @@ def extract_search_info(input_str: str):
                 'no_color': True,
                 'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
                 'referer': 'https://www.google.com/',
+                'cookiefile': 'cookies.txt',
             }
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(input_str, download=False)
@@ -92,6 +93,7 @@ def extract_download_info(input_str: str, quality: Optional[int] = None):
         'no_color': True,
         'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
         'referer': 'https://www.google.com/',
+        'cookiefile': 'cookies.txt',
     }
     
     if quality:
@@ -179,6 +181,7 @@ def extract_all_formats(input_str: str):
         'no_color': True,
         'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
         'referer': 'https://www.google.com/',
+        'cookiefile': 'cookies.txt',
     }
     if not (input_str.startswith("http://") or input_str.startswith("https://")):
         input_str = f"ytsearch1:{input_str}"
