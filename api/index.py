@@ -96,19 +96,29 @@ def extract_search_info(input_str: str):
                 'no_warnings': True,
                 'nocheckcertificate': True,
                 'no_color': True,
-                'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-                'referer': 'https://www.google.com/',
+                'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+                'referer': 'https://www.youtube.com/',
                 'cookiefile': '/tmp/yt-dlp/cookies.txt',
-                'extractor_args': {'youtube': {'player_client': ['ios', 'web', 'mweb', 'android', 'tv'], 'skip': ['hls', 'dash']}},
+                'extractor_args': {
+                    'youtube': {
+                        'player_client': ['web', 'ios', 'mweb', 'android', 'tv'],
+                        'skip': ['hls', 'dash'],
+                        'player_skip': ['webpage', 'configs', 'js']
+                    }
+                },
                 'http_headers': {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-                    'Accept-Language': 'en-US,en;q=0.5',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+                    'Accept': '*/*',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Origin': 'https://www.youtube.com',
+                    'Referer': 'https://www.youtube.com/',
                     'Sec-Fetch-Mode': 'navigate',
                 },
                 'impersonate_headers': True,
                 'youtube_include_dash_manifest': False,
                 'youtube_include_hls_manifest': False,
+                'socket_timeout': 30,
+                'retries': 3,
             }
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(input_str, download=False)
@@ -133,20 +143,30 @@ def extract_download_info(input_str: str, quality: Optional[int] = None):
         'extract_flat': False,
         'nocheckcertificate': True,
         'no_color': True,
-        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-        'referer': 'https://www.google.com/',
+        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'referer': 'https://www.youtube.com/',
         'cookiefile': '/tmp/yt-dlp/cookies.txt',
-        'extractor_args': {'youtube': {'player_client': ['ios', 'web', 'mweb', 'android', 'tv'], 'skip': ['hls', 'dash']}},
+        'extractor_args': {
+            'youtube': {
+                'player_client': ['web', 'ios', 'mweb', 'android', 'tv'],
+                'skip': ['hls', 'dash'],
+                'player_skip': ['webpage', 'configs', 'js']
+            }
+        },
         'http_headers': {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.5',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Origin': 'https://www.youtube.com',
+            'Referer': 'https://www.youtube.com/',
             'Sec-Fetch-Mode': 'navigate',
         },
         'impersonate_headers': True,
         'noprogress': True,
         'youtube_include_dash_manifest': False,
         'youtube_include_hls_manifest': False,
+        'socket_timeout': 30,
+        'retries': 3,
     }
     
     if quality:
@@ -232,20 +252,30 @@ def extract_all_formats(input_str: str):
         'extract_flat': False,
         'nocheckcertificate': True,
         'no_color': True,
-        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-        'referer': 'https://www.google.com/',
+        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'referer': 'https://www.youtube.com/',
         'cookiefile': '/tmp/yt-dlp/cookies.txt',
-        'extractor_args': {'youtube': {'player_client': ['ios', 'web', 'mweb', 'android', 'tv'], 'skip': ['hls', 'dash']}},
+        'extractor_args': {
+            'youtube': {
+                'player_client': ['web', 'ios', 'mweb', 'android', 'tv'],
+                'skip': ['hls', 'dash'],
+                'player_skip': ['webpage', 'configs', 'js']
+            }
+        },
         'http_headers': {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.5',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Origin': 'https://www.youtube.com',
+            'Referer': 'https://www.youtube.com/',
             'Sec-Fetch-Mode': 'navigate',
         },
         'impersonate_headers': True,
         'noprogress': True,
         'youtube_include_dash_manifest': False,
         'youtube_include_hls_manifest': False,
+        'socket_timeout': 30,
+        'retries': 3,
     }
     if not (input_str.startswith("http://") or input_str.startswith("https://")):
         input_str = f"ytsearch1:{input_str}"
