@@ -26,38 +26,30 @@ install_and_import("youtube-search", "youtube_search")
 import yt_dlp
 from youtube_search import YoutubeSearch
 
-import os
-
 def setup_cookies():
-    # Use environment variable for cookies if available, otherwise use hardcoded
-    cookie_content = os.environ.get("YOUTUBE_COOKIES_CONTENT", """# Netscape HTTP Cookie File
-# https://curl.haxx.se/rfc/cookie_spec.html
-# This is a generated file! Do not edit.
-
-.youtube.com    TRUE    /       TRUE    1802746903      __Secure-3PAPISID       bQ8MoLrNbRSshP9O/A7OPhHZftwwN7N-V8
-.youtube.com    TRUE    /       TRUE    1797669119      LOGIN_INFO      AFmmF2swRQIgX1HYbzoBnkHKYwIlChEo1PxMCqTiPMcSdR0vwFpDdAwCIQC7UZzE0yU5jVdaDqW75EX9r3b96ro8kB5bdFQGf4-rUQ:QUQ3MjNmeVRiRjhwOEpoWXh1TExHdlNFTi1hM0VWeDRiSUI1eHQ2b0kxNXdJLXUwS09lTlYtY21CQndPTTJZODJZUlMtaS0yNnpJU1VNVEgzTXQxbXVIbGYwYVZDcHNFb3pVcjRfYzR0WnU2ZnFVUW1pdVBwMXE4aEVtSUdzR2hsT2FkdzR3bFdSNzFvNmJyaE1od2lYVEdRcjVjZzF4RG5B
-.youtube.com    TRUE    /       TRUE    1802746903      __Secure-3PSID  g.a0005ggEUbHTHhLk3prGZ7Wp2POHRKhKYWwnMMDL1NTe1icbH0Jy40KLJZRs9-lXBgYwlwjyzQACgYKAVQSARMSFQHGX2MiUdi2tNuXG56KF1mXB2tDQhoVAUF8yKpLXIltX4gD018IjmO8GnxD0076
-.youtube.com    TRUE    /       TRUE    1803239253      PREF    tz=Asia.Colombo&f7=100&f6=40000000
-.youtube.com    TRUE    /       TRUE    1800215257      __Secure-1PSIDTS        sidts-CjQB7I_69P5xCw71hr2Z3E90gFLniSyVWxZgxf3QBd_w_msTbPwIzTzB2H0OGd9wPYlBlo28EAA
-.youtube.com    TRUE    /       TRUE    1800215257      __Secure-3PSIDTS        sidts-CjQB7I_69P5xCw71hr2Z3E90gFLniSyVWxZgxf3QBd_w_msTbPwIzTzB2H0OGd9wPYlBlo28EAA
-.youtube.com    TRUE    /       TRUE    1800215296      __Secure-3PSIDCC        AKEyXzUEz5H_7cE4SM1X31VuAmEIwlSaP2OounSM1Osj-FSqVqxexRlWg_ctk6Gz8cS21sCuf3A
-.youtube.com    TRUE    /       TRUE    1784231249      VISITOR_INFO1_LIVE      PtS166wesDk
-.youtube.com    TRUE    /       TRUE    1784231249      VISITOR_PRIVACY_METADATA        CgJMSxIEGgAgFQ%3D%3D
-.youtube.com    TRUE    /       TRUE    1784227324      __Secure-YNID   15.YT=QPG91qjjN8kGqlefUNesPdldOxeFbp04BruLivqTDOC8zlgGKpdHRE84JFYdhL4tzLAq53nrNS_FBvFJy_zPt3_R0CfOQ6um_h0fIkqc6KHm_NIkrhbKJfvWbN_aQPwH1HY3GH1jQhIWn5Ku0T12c3LsXaKbt7uIMGB2ntqu07zyr-XqBt75l-QPwgOTk-6yRS7GJ-fXNt5pMtv_oeKZnZux4gJhrc6pmNZCiHFC0EOrtmJ_pCSF0q0d8cylWxy6z-Un7XwGhZVtg1V_Rc72aScO-3LFREabTjjhkZoqEt52PiykyAaZ6k5Ha9W921b3eBzYpQli4hP1n_04X4zWxg
-.youtube.com    TRUE    /       TRUE    0       YSC     KSAvcaBsqpY
-.youtube.com    TRUE    /       TRUE    1784227324      __Secure-ROLLOUT_TOKEN  CKmU7JjxnLHQhAEQ6qb1rseEjwMY0b62g52TkgM%3D
-""")
+    # Netscape cookies MUST be tab-separated (\t)
+    default_cookies = (
+        "# Netscape HTTP Cookie File\n"
+        "# https://curl.haxx.se/rfc/cookie_spec.html\n"
+        "# This is a generated file! Do not edit.\n\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1802746903\t__Secure-3PAPISID\tbQ8MoLrNbRSshP9O/A7OPhHZftwwN7N-V8\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1797669119\tLOGIN_INFO\tAFmmF2swRQIgX1HYbzoBnkHKYwIlChEo1PxMCqTiPMcSdR0vwFpDdAwCIQC7UZzE0yU5jVdaDqW75EX9r3b96ro8kB5bdFQGf4-rUQ:QUQ3MjNmeVRiRjhwOEpoWXh1TExHdlNFTi1hM0VWeDRiSUI1eHQ2b0kxNXdJLXUwS09lTlYtY21CQndPTTJZODJZUlMtaS0yNnpJU1VNVEgzTXQxbXVIbGYwYVZDcHNFb3pVcjRfYzR0WnU2ZnFVUW1pdVBwMXE4aEVtSUdzR2hsT2FkdzR3bFdSNzFvNmJyaE1od2lYVEdRcjVjZzF4RG5B\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1802746903\t__Secure-3PSID\tg.a0005ggEUbHTHhLk3prGZ7Wp2POHRKhKYWwnMMDL1NTe1icbH0Jy40KLJZRs9-lXBgYwlwjyzQACgYKAVQSARMSFQHGX2MiUdi2tNuXG56KF1mXB2tDQhoVAUF8yKpLXIltX4gD018IjmO8GnxD0076\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1803239253\tPREF\ttz=Asia.Colombo&f7=100&f6=40000000\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1800215257\t__Secure-1PSIDTS\tsidts-CjQB7I_69P5xCw71hr2Z3E90gFLniSyVWxZgxf3QBd_w_msTbPwIzTzB2H0OGd9wPYlBlo28EAA\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1800215257\t__Secure-3PSIDTS\tsidts-CjQB7I_69P5xCw71hr2Z3E90gFLniSyVWxZgxf3QBd_w_msTbPwIzTzB2H0OGd9wPYlBlo28EAA\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1800215296\t__Secure-3PSIDCC\tAKEyXzUEz5H_7cE4SM1X31VuAmEIwlSaP2OounSM1Osj-FSqVqxexRlWg_ctk6Gz8cS21sCuf3A\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1784231249\tVISITOR_INFO1_LIVE\tPtS166wesDk\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1784231249\tVISITOR_PRIVACY_METADATA\tCgJMSxIEGgAgFQ%3D%3D\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1784227324\t__Secure-YNID\t15.YT=QPG91qjjN8kGqlefUNesPdldOxeFbp04BruLivqTDOC8zlgGKpdHRE84JFYdhL4tzLAq53nrNS_FBvFJy_zPt3_R0CfOQ6um_h0fIkqc6KHm_NIkrhbKJfvWbN_aQPwH1HY3GH1jQhIWn5Ku0T12c3LsXaKbt7uIMGB2ntqu07zyr-XqBt75l-QPwgOTk-6yRS7GJ-fXNt5pMtv_oeKZnZux4gJhrc6pmNZCiHFC0EOrtmJ_pCSF0q0d8cylWxy6z-Un7XwGhZVtg1V_Rc72aScO-3LFREabTjjhkZoqEt52PiykyAaZ6k5Ha9W921b3eBzYpQli4hP1n_04X4zWxg\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t0\tYSC\tKSAvcaBsqpY\n"
+        ".youtube.com\tTRUE\t/\tTRUE\t1784227324\t__Secure-ROLLOUT_TOKEN\tCKmU7JjxnLHQhAEQ6qb1rseEjwMY0b62g52TkgM%3D\n"
+    )
+    cookie_content = os.environ.get("YOUTUBE_COOKIES_CONTENT", default_cookies)
     os.makedirs("/tmp/yt-dlp", exist_ok=True)
     cookies_path = "/tmp/yt-dlp/cookies.txt"
     with open(cookies_path, "w") as f:
         f.write(cookie_content)
-    # Also write to local directory as a backup if writable
-    try:
-        local_cookies = os.path.join(os.path.dirname(__file__), '../cookies.txt')
-        with open(local_cookies, "w") as f:
-            f.write(cookie_content)
-    except:
-        pass
 
 setup_cookies()
 
@@ -73,6 +65,28 @@ app.add_middleware(
 class SearchRequest(BaseModel):
     url: Optional[str] = None
     query: Optional[str] = None
+
+def get_base_ydl_opts():
+    return {
+        'quiet': True,
+        'no_warnings': True,
+        'nocheckcertificate': True,
+        'no_color': True,
+        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'referer': 'https://www.youtube.com/',
+        'cookiefile': '/tmp/yt-dlp/cookies.txt',
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Origin': 'https://www.youtube.com',
+            'Referer': 'https://www.youtube.com/',
+        },
+        'youtube_include_dash_manifest': True,
+        'youtube_include_hls_manifest': True,
+        'socket_timeout': 60,
+        'retries': 5,
+    }
 
 def extract_search_info(input_str: str):
     try:
@@ -94,35 +108,7 @@ def extract_search_info(input_str: str):
                 "url": video_url
             }
         else:
-            ydl_opts = {
-                'quiet': True, 
-                'no_warnings': True,
-                'nocheckcertificate': True,
-                'no_color': True,
-                'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-                'referer': 'https://www.youtube.com/',
-                'cookiefile': '/tmp/yt-dlp/cookies.txt',
-                'extractor_args': {
-                    'youtube': {
-                        'player_client': ['web', 'ios', 'mweb', 'android', 'tv'],
-                        'skip': ['hls', 'dash'],
-                        'player_skip': ['webpage', 'configs', 'js']
-                    }
-                },
-                'http_headers': {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-                    'Accept': '*/*',
-                    'Accept-Language': 'en-US,en;q=0.9',
-                    'Origin': 'https://www.youtube.com',
-                    'Referer': 'https://www.youtube.com/',
-                    'Sec-Fetch-Mode': 'navigate',
-                },
-                'impersonate_headers': True,
-                'youtube_include_dash_manifest': False,
-                'youtube_include_hls_manifest': False,
-                'socket_timeout': 30,
-                'retries': 3,
-            }
+            ydl_opts = get_base_ydl_opts()
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(input_str, download=False)
                 return {
@@ -140,43 +126,18 @@ def extract_search_info(input_str: str):
         return {"status": False, "error": str(e)}
 
 def extract_download_info(input_str: str, quality: Optional[int] = None):
-    ydl_opts = {
-        'quiet': True,
-        'no_warnings': True,
+    ydl_opts = get_base_ydl_opts()
+    ydl_opts.update({
         'extract_flat': False,
-        'nocheckcertificate': True,
-        'no_color': True,
-        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-        'referer': 'https://www.youtube.com/',
-        'cookiefile': '/tmp/yt-dlp/cookies.txt',
-        'extractor_args': {
-            'youtube': {
-                'player_client': ['web', 'ios', 'mweb', 'android', 'tv'],
-                'skip': ['hls', 'dash'],
-                'player_skip': ['webpage', 'configs', 'js']
-            }
-        },
-        'http_headers': {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-            'Accept': '*/*',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Origin': 'https://www.youtube.com',
-            'Referer': 'https://www.youtube.com/',
-            'Sec-Fetch-Mode': 'navigate',
-        },
-        'impersonate_headers': True,
-        'noprogress': True,
-        'youtube_include_dash_manifest': False,
-        'youtube_include_hls_manifest': False,
-        'socket_timeout': 30,
-        'retries': 3,
-    }
+        'merge_output_format': 'mp4',
+        'outtmpl': '/tmp/%(title)s.%(ext)s',
+        'ignoreerrors': True,
+    })
     
     if quality:
-        # Improved format string to be more flexible and prevent "Requested format is not available"
-        ydl_opts['format'] = f"bestvideo[height<={quality}][ext=mp4]+bestaudio[ext=m4a]/best[height<={quality}]/best"
+        ydl_opts['format'] = f"bestvideo[height<={quality}]+bestaudio/best[height<={quality}]"
     else:
-        ydl_opts['format'] = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best"
+        ydl_opts['format'] = "bv*+ba/b"
     
     ydl_opts['merge_output_format'] = 'mp4'
     
@@ -250,37 +211,7 @@ def extract_download_info(input_str: str, quality: Optional[int] = None):
         return {"status": False, "error": str(e)}
 
 def extract_all_formats(input_str: str):
-    ydl_opts = {
-        'quiet': True,
-        'no_warnings': True,
-        'extract_flat': False,
-        'nocheckcertificate': True,
-        'no_color': True,
-        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-        'referer': 'https://www.youtube.com/',
-        'cookiefile': '/tmp/yt-dlp/cookies.txt',
-        'extractor_args': {
-            'youtube': {
-                'player_client': ['web', 'ios', 'mweb', 'android', 'tv'],
-                'skip': ['hls', 'dash'],
-                'player_skip': ['webpage', 'configs', 'js']
-            }
-        },
-        'http_headers': {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-            'Accept': '*/*',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Origin': 'https://www.youtube.com',
-            'Referer': 'https://www.youtube.com/',
-            'Sec-Fetch-Mode': 'navigate',
-        },
-        'impersonate_headers': True,
-        'noprogress': True,
-        'youtube_include_dash_manifest': False,
-        'youtube_include_hls_manifest': False,
-        'socket_timeout': 30,
-        'retries': 3,
-    }
+    ydl_opts = get_base_ydl_opts()
     if not (input_str.startswith("http://") or input_str.startswith("https://")):
         input_str = f"ytsearch1:{input_str}"
     try:
