@@ -1,28 +1,10 @@
-import subprocess
-import sys
-import importlib
+import os
 import json
 import re
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
-
-def install_and_import(package, import_name=None):
-    if import_name is None:
-        import_name = package
-    try:
-        importlib.import_module(import_name)
-    except ImportError:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-        importlib.import_module(import_name)
-
-# Auto-install requirements
-install_and_import("fastapi")
-install_and_import("uvicorn")
-install_and_import("yt-dlp", "yt_dlp")
-install_and_import("youtube-search", "youtube_search")
-
 import yt_dlp
 from youtube_search import YoutubeSearch
 
@@ -50,8 +32,10 @@ def setup_cookies():
     cookies_path = "/tmp/yt-dlp/cookies.txt"
     with open(cookies_path, "w") as f:
         f.write(cookie_content)
+    return cookies_path
 
-setup_cookies()
+# Initialize cookies path
+cookies_path = setup_cookies()
 
 app = FastAPI()
 
@@ -74,7 +58,7 @@ def get_base_ydl_opts():
         'no_color': True,
         'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
         'referer': 'https://www.youtube.com/',
-        'cookiefile': '/tmp/yt-dlp/cookies.txt',
+        'cookiefile': cookies_path,
         'http_headers': {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
             'Accept': '*/*',
@@ -84,8 +68,9 @@ def get_base_ydl_opts():
         },
         'youtube_include_dash_manifest': True,
         'youtube_include_hls_manifest': True,
-        'socket_timeout': 60,
-        'retries': 5,
+        'socket_timeout': 30,
+        'retries': 3,
+        'extract_flat': False,
     }
 
 def extract_search_info(input_str: str):
@@ -128,7 +113,6 @@ def extract_search_info(input_str: str):
 def extract_download_info(input_str: str, quality: Optional[int] = None):
     ydl_opts = get_base_ydl_opts()
     ydl_opts.update({
-        'extract_flat': False,
         'merge_output_format': 'mp4',
         'outtmpl': '/tmp/%(title)s.%(ext)s',
         'ignoreerrors': True,
@@ -138,8 +122,6 @@ def extract_download_info(input_str: str, quality: Optional[int] = None):
         ydl_opts['format'] = f"bestvideo[height<={quality}]+bestaudio/best[height<={quality}]"
     else:
         ydl_opts['format'] = "bv*+ba/b"
-    
-    ydl_opts['merge_output_format'] = 'mp4'
     
     if not (input_str.startswith("http://") or input_str.startswith("https://")):
         input_str = f"ytsearch1:{input_str}"
@@ -257,7 +239,7 @@ async def root_endpoint():
     return {
         "status": True,
         "creator": "mr senal",
-        "version": "v4-Lite",
+        "version": "v4-Lite-Fixed",
         "message": "Welcome to Senal YouTube Extractor API 🚀",
         "available_qualities": {
             "video": ["144p", "240p", "360p", "480p", "720p", "1080p"],
@@ -342,6 +324,5 @@ async def post_formats(request: SearchRequest):
         return {"status": False, "error": "URL or query is required"}
     return extract_all_formats(target)
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+# Vercel serverless function handler
+app_handler = app
